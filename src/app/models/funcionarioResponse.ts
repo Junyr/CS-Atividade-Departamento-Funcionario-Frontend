@@ -1,6 +1,6 @@
 export interface FuncionarioResponse {
   id: number;
-  nome: number;
+  nome: string;
   email: string;
   cargo: string;
   salario: number;

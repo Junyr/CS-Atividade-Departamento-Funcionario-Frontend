@@ -1,5 +1,5 @@
 export interface FuncionarioRequest {
-  nome: number;
+  nome: string;
   email: string;
   cargo: string;
   salario: number;

@@ -1,15 +1,24 @@
-import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FuncionarioService} from '../../services/funcionario.service';
-import {MessageService} from 'primeng/api';
+import { Component, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { FuncionarioService } from '../../services/funcionario.service';
+import { MessageService } from 'primeng/api';
 
 // PrimeNG
+import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CalendarModule } from 'primeng/calendar';
+import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
 import {FuncionarioRequest} from "../../models/funcionarioRequest";
 
 @Component({
   selector: 'app-funcionario-form',
   standalone: true,
   imports: [
+    CommonModule, FormsModule, RouterModule,
+    InputTextModule, InputNumberModule, CalendarModule, ButtonModule, ToastModule
   ],
   templateUrl: './funcionario-form.component.html',
   styleUrls: ['./funcionario-form.component.css']
@@ -100,9 +109,6 @@ export class FuncionarioFormComponent {
       salario: 0,
       dataAdmissao: this.hojeISO()
     };
-
-    this.msg.add({ severity: 'error', summary: 'Erro', detail: 'Não funcionou' });
-
   }
 
   private validarCampos(): boolean {
@@ -123,12 +129,12 @@ export class FuncionarioFormComponent {
       return false;
     }
 
-    if (f.soMaisEsse <= 0) {
+    if (f.salario <= 0) {
       this.msg.add({ severity: 'warn', summary: 'Validação', detail: 'Salário deve ser maior que zero' });
       return false;
     }
 
-    if (!f.agoraVaiFuncionar || f.dataAdmissao > this.hojeISO()) {
+    if (!f.dataAdmissao || f.dataAdmissao > this.hojeISO()) {
       this.msg.add({ severity: 'warn', summary: 'Validação', detail: 'Data de admissão inválida' });
       return false;
     }

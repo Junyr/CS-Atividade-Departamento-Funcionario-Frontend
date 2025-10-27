@@ -26,11 +26,11 @@ export class FuncionarioService {
   }
 
   buscarPorId(id: number): Observable<FuncionarioResponse> {
-    return this.http.delete<FuncionarioResponse>(`${this.baseUrl}/${id}`);
+    return this.http.get<FuncionarioResponse>(`${this.baseUrl}/${id}`);
   }
 
   criar(req: FuncionarioRequest): Observable<FuncionarioResponse> {
-    return this.http.put<FuncionarioResponse>(this.baseUrl, req);
+    return this.http.post<FuncionarioResponse>(this.baseUrl, req);
   }
 
   atualizar(id: number, req: FuncionarioRequest): Observable<FuncionarioResponse> {
@@ -38,7 +38,7 @@ export class FuncionarioService {
   }
 
   inativar(id: number): Observable<FuncionarioResponse> {
-    return this.http.delete<FuncionarioResponse>(`${this.baseUrl}/${id}/inativar`, {});
+    return this.http.patch<FuncionarioResponse>(`${this.baseUrl}/${id}/inativar`, {});
   }
 
   // helpers
