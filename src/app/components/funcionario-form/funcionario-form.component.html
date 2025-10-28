@@ -25,6 +25,11 @@
   </div>
 
   <div class="form-row">
+    <label for="departamento">Sigla do departamento</label>
+    <input pInputText id="departamento" [(ngModel)]="funcionario.departamentoSigla" placeholder="Ex.: RH" />
+  </div>
+
+  <div class="form-row">
     <label for="dataAdmissao">Data de Admissão</label>
     <p-calendar id="dataAdmissao"
                 dateFormat="yy-mm-dd"

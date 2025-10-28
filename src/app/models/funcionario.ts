@@ -5,5 +5,6 @@ export interface Funcionario {
   cargo: string;
   salario: number;
   dataAdmissao: string; // ISO yyyy-MM-dd
+  departamentoSigla: string;
   ativo: boolean;
 }

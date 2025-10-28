@@ -23,6 +23,10 @@
   </div>
 
   <button pButton label="Novo Funcionário" class="p-button-success" (click)="novo()"></button>
+
+  <div>
+    <button pButton label="Departamentos" class="p-button-success" (click)="departamentos()"></button>
+  </div>
 </div>
 
 <p-table [value]="funcionarios" [paginator]="true" [rows]="10" [loading]="carregando">
@@ -32,6 +36,7 @@
       <th>Email</th>
       <th>Cargo</th>
       <th>Salário</th>
+      <th>Departamento</th>
       <th>Status</th>
       <th style="width: 220px;">Ações</th>
     </tr>
@@ -42,6 +47,7 @@
       <td>{{ f.email }}</td>
       <td>{{ f.cargo }}</td>
       <td>{{ f.salario | currency:'BRL':'symbol':'1.2-2' }}</td>
+      <td>{{ f.departamento }}</td>
       <td>
         <p-tag [severity]="f.ativo ? 'success' : 'danger'" [value]="f.ativo ? 'Ativo' : 'Inativo'"></p-tag>
       </td>

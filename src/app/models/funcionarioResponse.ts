@@ -4,6 +4,7 @@ export interface FuncionarioResponse {
   email: string;
   cargo: string;
   salario: number;
+  departamentoSigla: string;
   dataAdmissao: string;
   ativo: boolean;
 }

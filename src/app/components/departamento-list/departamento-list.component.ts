@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { FuncionarioService } from '../../services/funcionario.service';
+import { DepartamentoService } from '../../services/departamento.service';
 
 // PrimeNG
 import { TableModule } from 'primeng/table';
@@ -13,10 +13,10 @@ import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MessageService, ConfirmationService } from 'primeng/api';
-import {FuncionarioResponse} from "../../models/funcionarioResponse";
+import { DepartamentoResponse } from "../../models/departamentoResponse";
 
 @Component({
-  selector: 'app-funcionario-list',
+  selector: 'app-departamento-list',
   standalone: true,
   imports: [
     CommonModule,
@@ -31,13 +31,12 @@ import {FuncionarioResponse} from "../../models/funcionarioResponse";
     ConfirmDialogModule
   ],
   providers: [MessageService, ConfirmationService],
-  templateUrl: './funcionario-list.component.html',
-  styleUrls: ['./funcionario-list.component.css']
+  templateUrl: './departamento-list.component.html',
+  styleUrl: './departamento-list.component.css'
 })
-export class FuncionarioListComponent implements OnInit {
+export class DepartamentoListComponent implements OnInit {
 
-  funcionarios: FuncionarioResponse[] = [];
-  filtroCargo: string = '';
+  departamento: DepartamentoResponse[] = [];
   filtroAtivo: boolean | null = null;
   carregando = false;
 
@@ -48,7 +47,7 @@ export class FuncionarioListComponent implements OnInit {
   ];
 
   constructor(
-    private service: FuncionarioService,
+    private service: DepartamentoService,
     private msg: MessageService,
     private confirm: ConfirmationService,
     private router: Router
@@ -61,39 +60,46 @@ export class FuncionarioListComponent implements OnInit {
   carregar(): void {
     this.carregando = true;
 
-    const params: any = {};
-    if (this.filtroCargo.trim()) params.cargo = this.filtroCargo.trim();
-    if (this.filtroAtivo !== null) params.ativo = this.filtroAtivo;
+    let obs;
+    if (this.filtroAtivo === true) {
+      obs = this.service.listarAtivos();
+    } else {
+      obs = this.service.listar();
+    }
 
-    this.service.listar(params).subscribe({
+    obs.subscribe({
       next: (lista) => {
-        this.funcionarios = lista;
+        // Se filtroInativo = false, filtra os inativos manualmente
+        if (this.filtroAtivo === false) {
+          this.departamento = lista.filter(d => !d.ativo);
+        } else {
+          this.departamento = lista;
+        }
         this.carregando = false;
       },
       error: () => {
-        this.msg.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao carregar funcionários' });
+        this.msg.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao carregar departamentos' });
         this.carregando = false;
       }
     });
   }
 
   limparFiltros(): void {
-    this.filtroCargo = '';
     this.filtroAtivo = null;
     this.carregar();
   }
 
   editar(id: number): void {
-    this.router.navigate(['/funcionarios', id]);
+    this.router.navigate(['/departamento', id]);
   }
 
-  confirmarInativacao(f: FuncionarioResponse): void {
+  confirmarInativacao(d: DepartamentoResponse): void {
     this.confirm.confirm({
-      message: `Confirma inativar ${f.nome}?`,
+      message: `Confirma inativar ${d.nome}?`,
       header: 'Confirmar',
       acceptLabel: 'Sim',
       rejectLabel: 'Não',
-      accept: () => this.inativar(f.id)
+      accept: () => this.inativar(d.id)
     });
   }
 
@@ -101,7 +107,7 @@ export class FuncionarioListComponent implements OnInit {
     this.carregando = true;
     this.service.inativar(id).subscribe({
       next: () => {
-        this.msg.add({ severity: 'success', summary: 'Sucesso', detail: 'Funcionário inativado' });
+        this.msg.add({ severity: 'success', summary: 'Sucesso', detail: 'Departamento inativado' });
         this.carregar();
       },
       error: () => {
@@ -112,10 +118,10 @@ export class FuncionarioListComponent implements OnInit {
   }
 
   novo(): void {
-    this.router.navigate(['/funcionarios/novo']);
+    this.router.navigate(['/departamentos/novo']);
   }
 
-  departamentos(): void {
-    this.router.navigate(['/departamentos']);
+  funcionarios(): void {
+    this.router.navigate(['/funcionarios']);
   }
 }
