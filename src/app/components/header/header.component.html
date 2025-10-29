@@ -1,0 +1,4 @@
+<div>
+    <p *ngIf="email !== ''">Email: {{email}}</p>
+    <p-button *ngIf="getIsAuthorized()" label="Sair" (onClick)="sair()"></p-button>
+</div>

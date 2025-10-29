@@ -3,17 +3,21 @@ import { FuncionarioListComponent } from "./components/funcionario-list/funciona
 import { FuncionarioFormComponent } from "./components/funcionario-form/funcionario-form.component";
 import { DepartamentoListComponent } from "./components/departamento-list/departamento-list.component";
 import { DepartamentoFormComponent } from "./components/departamento-form/departamento-form.component";
+import { authGuard } from './commons/auth.guard';
+import { LoginComponent } from './components/login/login.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'funcionarios', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+
+  { path: 'login', component: LoginComponent },
 
   // Rotas de funcionários
-  { path: 'funcionarios', component: FuncionarioListComponent },
-  { path: 'funcionarios/novo', component: FuncionarioFormComponent },
-  { path: 'funcionarios/:id', component: FuncionarioFormComponent },
+  { path: 'funcionarios', component: FuncionarioListComponent, canActivate: [authGuard] },
+  { path: 'funcionarios/novo', component: FuncionarioFormComponent, canActivate: [authGuard] },
+  { path: 'funcionarios/:id', component: FuncionarioFormComponent, canActivate: [authGuard] },
 
   // Rotas de departamentos
-  { path: 'departamentos', component: DepartamentoListComponent },
-  { path: 'departamentos/novo', component: DepartamentoFormComponent },
-  { path: 'departamentos/:id', component: DepartamentoFormComponent }
+  { path: 'departamentos', component: DepartamentoListComponent, canActivate: [authGuard]},
+  { path: 'departamentos/novo', component: DepartamentoFormComponent, canActivate: [authGuard]},
+  { path: 'departamentos/:id', component: DepartamentoFormComponent, canActivate: [authGuard]}
 ];
