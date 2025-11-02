@@ -16,6 +16,10 @@ export class AuthService {
   email$ = this.emailSubject.asObservable();
 
   login(email: string){
+    if (email == '' || !email.match("^.+@.+(\\.com|\\.com.br){1}$")) {
+      alert('Por favor, insira um e-mail válido.');
+      return;
+    }
     const token = email;
     localStorage.setItem(this.TOKEN_KEY, token);
     this.emailSubject.next(email);
