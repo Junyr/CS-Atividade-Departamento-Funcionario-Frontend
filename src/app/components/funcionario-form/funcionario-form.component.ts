@@ -23,6 +23,7 @@ import {FuncionarioRequest} from "../../models/funcionarioRequest";
   templateUrl: './funcionario-form.component.html',
   styleUrls: ['./funcionario-form.component.css']
 })
+
 export class FuncionarioFormComponent {
   id: number | null = null;
   isEdicao = false;
